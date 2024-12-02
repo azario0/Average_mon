@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Average Monthly Income Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Average Monthly Income Prediction</h1>
+        <p>Please fill in the following details to get a prediction.</p>
+        <br><br>
+        
+        <form method="post" action="{{ url_for('index') }}">
+            {{ form.hidden_tag() }}
+            {% for field in form %}
+                {% if field.name not in ['csrf_token', 'submit'] %}
+                <div class="form-group">
+                    {{ field.label }}<br>
+                    {{ field(class="form-control") }}<br>
+                    {% for error in field.errors %}
+                        <span>{{ error }}</span><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            {% endfor %}
+            {{ form.submit(class="btn btn-primary") }}
+        </form>
+        
+        {% if prediction %}
+        <div class="prediction-section">
+            <h2>Prediction:</h2>
+            <p>{{ prediction }}</p>
+        </div>
+        {% else %}
+        <div class="prediction-section">
+            <p>Please fill in the form to get a prediction.</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
